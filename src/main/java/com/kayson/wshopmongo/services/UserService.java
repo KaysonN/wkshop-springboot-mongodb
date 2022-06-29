@@ -5,8 +5,10 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.kayson.wshopmongo.domain.User;
+import com.kayson.wshopmongo.dto.UserDTO;
 import com.kayson.wshopmongo.repository.UserRepository;
 import com.kayson.wshopmongo.services.exception.ObjectNotFoundException;
 
@@ -31,6 +33,14 @@ public class UserService {
 			throw new ObjectNotFoundException("Objeto não encontrado!");
 		}
 		return user.orElseThrow(()->new ObjectNotFoundException("Objeto não encontrado"));
-
 	}
+	
+	public User insert(User user) {
+		return repository.save(user);
+	}
+	
+	public User fromDTO(UserDTO userDTO){
+		return new User(userDTO.getId(), userDTO.getName(), userDTO.getEmail());
+	}
+
 }
