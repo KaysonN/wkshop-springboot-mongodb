@@ -42,14 +42,25 @@ public class UserResource {
 		User obj = service.findById(id);
 		return ResponseEntity.ok().body(new UserDTO(obj));
 	}
-	
+
+	// insere um usuario no banco
 	@RequestMapping(method = RequestMethod.POST) // @PostMapping
 	public ResponseEntity<Void> insert(@RequestBody UserDTO userDTO) {
+
 		User obj = service.fromDTO(userDTO);
 		obj = service.insert(obj);
-		
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 
+		// código especifico do spring para a operação
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).body(null);
 	}
+
+	// deleta um usuario do banco
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable String id) {
+
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+	}
+
 }

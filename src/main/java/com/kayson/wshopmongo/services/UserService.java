@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import com.kayson.wshopmongo.domain.User;
 import com.kayson.wshopmongo.dto.UserDTO;
@@ -32,15 +32,23 @@ public class UserService {
 		if (user == null) {
 			throw new ObjectNotFoundException("Objeto não encontrado!");
 		}
-		return user.orElseThrow(()->new ObjectNotFoundException("Objeto não encontrado"));
+		return user.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
 	}
-	
+
 	public User insert(User user) {
 		return repository.save(user);
 	}
-	
-	public User fromDTO(UserDTO userDTO){
+
+	public User fromDTO(UserDTO userDTO) {
 		return new User(userDTO.getId(), userDTO.getName(), userDTO.getEmail());
+	}
+
+	public void delete(String id) {
+		// Faz uma busca, caso não encontre nenhum objeto, retorna uma exception
+		findById(id);
+		// se encontrar o objeto passado como parametro, ele deleta do banco.
+		repository.deleteById(id);
+
 	}
 
 }
