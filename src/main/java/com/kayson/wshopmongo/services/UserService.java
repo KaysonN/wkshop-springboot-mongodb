@@ -2,11 +2,8 @@ package com.kayson.wshopmongo.services;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-
 import com.kayson.wshopmongo.domain.User;
 import com.kayson.wshopmongo.dto.UserDTO;
 import com.kayson.wshopmongo.repository.UserRepository;
@@ -15,7 +12,6 @@ import com.kayson.wshopmongo.services.exception.ObjectNotFoundException;
 //indica pro spring um service
 @Service
 public class UserService {
-
 	// o spring procura a definição do objeto instanciado com a anotation @Autowired
 	@Autowired
 	UserRepository repository;
@@ -48,7 +44,17 @@ public class UserService {
 		findById(id);
 		// se encontrar o objeto passado como parametro, ele deleta do banco.
 		repository.deleteById(id);
-
+	}
+	
+	public User update(User obj){
+		 User newObj = repository.findById(obj.getId()).get();
+	     updateData(newObj, obj);
+	     return repository.save(newObj);
 	}
 
+	private void updateData(User newObj, User obj) {
+		newObj.setName(obj.getName());
+		newObj.setEmail(newObj.getEmail());
+		
+	}
 }

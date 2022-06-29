@@ -29,7 +29,6 @@ public class UserResource {
 	// retorna uma lista de usuarios=>busca todos
 	@RequestMapping(method = RequestMethod.GET) // @GetMapping
 	public ResponseEntity<List<UserDTO>> findAll() {
-
 		// lista de User's
 		List<User> list = service.findAll();
 		List<UserDTO> listDTO = list.stream().map(x -> new UserDTO(x)).collect(Collectors.toList());
@@ -46,7 +45,6 @@ public class UserResource {
 	// insere um usuario no banco
 	@RequestMapping(method = RequestMethod.POST) // @PostMapping
 	public ResponseEntity<Void> insert(@RequestBody UserDTO userDTO) {
-
 		User obj = service.fromDTO(userDTO);
 		obj = service.insert(obj);
 
@@ -58,9 +56,15 @@ public class UserResource {
 	// deleta um usuario do banco
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable String id) {
-
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT) // @PutMapping
+	public ResponseEntity<Void> update(@RequestBody UserDTO userDTO, @PathVariable String id) {
+		User obj = service.fromDTO(userDTO);
+		obj.setId(id);
+		obj = service.update(obj);
+		return ResponseEntity.noContent().build();
+	}
 }
