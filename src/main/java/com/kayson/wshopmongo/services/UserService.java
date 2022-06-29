@@ -32,7 +32,7 @@ public class UserService {
 	}
 
 	public User insert(User user) {
-		return repository.save(user);
+		return repository.insert(user);
 	}
 
 	public User fromDTO(UserDTO userDTO) {
@@ -55,6 +55,5 @@ public class UserService {
 	private void updateData(User newObj, User obj) {
 		newObj.setName(obj.getName());
 		newObj.setEmail(newObj.getEmail());
-		
 	}
 }

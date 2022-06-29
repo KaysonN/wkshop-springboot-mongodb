@@ -47,7 +47,7 @@ public class UserResource {
 	public ResponseEntity<Void> insert(@RequestBody UserDTO userDTO) {
 		User obj = service.fromDTO(userDTO);
 		obj = service.insert(obj);
-
+		
 		// código especifico do spring para a operação
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).body(null);
