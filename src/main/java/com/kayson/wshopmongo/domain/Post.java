@@ -1,24 +1,32 @@
 package com.kayson.wshopmongo.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.kayson.wshopmongo.dto.AuthorDTO;
+import com.kayson.wshopmongo.dto.CommentDTO;
 
 @Document
 public class Post implements Serializable {
 
+	// numero de versão
 	private static final long serialVersionUID = 1L;
 
+	// atributos
 	@Id
 	private String id;
 	private Date date;
 	private String title;
 	private String body;
 	private AuthorDTO author;
+
+	// associação
+	private List<CommentDTO> comments = new ArrayList<CommentDTO>();
 
 	// construtores
 	public Post() {
@@ -74,7 +82,15 @@ public class Post implements Serializable {
 	public void setAuthor(AuthorDTO author) {
 		this.author = author;
 	}
- 
+	
+	public List<CommentDTO> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<CommentDTO> comments) {
+		this.comments = comments;
+	}
+
 	// hashCode e equals
 	@Override
 	public int hashCode() {
